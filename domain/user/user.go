@@ -42,6 +42,7 @@ func newUser(username, email, hasshed_password, updated_at, created_at string) (
 	}, nil
 }
 
+// TODO: バリデーションエラーメッセージの詳細化
 func isValidUsername(username string) (bool, error) {
 	if len(username) < usernameMinLength || len(username) > usernameMaxLength {
 		return false, fmt.Errorf("ユーザーネームは%d文字以上%d文字以下である必要があります", usernameMinLength, usernameMaxLength)
