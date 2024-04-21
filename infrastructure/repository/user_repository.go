@@ -7,24 +7,26 @@ import (
 	"github.com/utya1414/blog-server/infrastructure/db"
 )
 
-type userRepository struct{}
-
-func NewUserRepository() user.UserRepository {
-	return &userRepository{}
+type userRepository struct{
+	store db.Store
 }
 
-func (r *userRepository) CreateUser(ctx context.Context, u *user.User) (*user.User, error) {
-	dbUser, err := db.Store.CreateUser(ctx, db.CreateUserParams{
+func NewUserRepository(store db.Store) UserRepository {
+	return &userRepository{store: store}
+}
+
+func (r *userRepository) CreateUser(ctx context.Context, u *user.User) error {
+	dbUser, err := r.store.CreateUser(ctx, db.CreateUserParams{
 		Username:        u.GetUsername(),
 		Email:           u.GetEmail(),
 		HasshedPassword: u.GetHasshedPassword(),
 	})
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	// TODO: dbUserがどういうフィールドを持っているか知っている実装なのでカプセル化したい。
-	domainUser, err := user.NewUser(
+	_, err = user.NewUser(
 		dbUser.Username, 
 		dbUser.Email, 
 		dbUser.HasshedPassword,
@@ -32,10 +34,10 @@ func (r *userRepository) CreateUser(ctx context.Context, u *user.User) (*user.Us
 		dbUser.CreatedAt.String(),
 	)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	return domainUser, nil
+	return nil
 }
 
 // func (r *userRepository) GetUser(ctx context.Context, username string) (*user.User, error) {
