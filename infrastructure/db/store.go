@@ -21,3 +21,7 @@ func NewStore(db *sql.DB) Store {
 		Queries: sqlc.New(db),
 	}
 }
+
+// sqlcパッケージの隠蔽
+type CreateUserParams = sqlc.CreateUserParams
+type ListUserParams = sqlc.ListUsersParams

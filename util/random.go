@@ -25,6 +25,7 @@ func RandomUsername() string {
 	return RandomString(6)
 }
 
+// TODO: パスワードのハッシュ化
 func RandomPassword() string {
 	return RandomString(6)
 }

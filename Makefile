@@ -16,5 +16,8 @@ migrateup:
 migratedown:
 	migrate -path infrastructure/db/migrations -database "postgresql://root:password@localhost:5434/blog?sslmode=disable" -verbose down
 
+test:
+	go test -v -cover ./...
+	
 PHONY:
-	bash psql start createdb migrateup migratedown
+	bash psql start createdb migrateup migratedown test

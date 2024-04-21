@@ -62,3 +62,25 @@ func isValidEmail(email string) (bool, error) {
 	}
 	return true, nil
 }
+
+func (u *User) GetUsername() string {
+	return u.username
+}
+
+func (u *User) GetEmail() string {
+	return u.email
+}
+
+func (u *User) GetHasshedPassword() string {
+	return u.hasshed_password
+}
+
+func (u *User) GetUpdatedAt() string {
+	return u.updated_at
+}
+
+func (u *User) GetCreatedAt() string {
+	return u.created_at
+}
+
+
