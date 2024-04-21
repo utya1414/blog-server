@@ -3,19 +3,21 @@ package db
 import (
 	"database/sql"
 
-	_ "github.com/blog-server/infrastructure/db/postgresql/sqlc"
+	sqlc "github.com/utya1414/blog-server/infrastructure/db/postgresql/sqlc"
 )
 
 type Store interface {
-	Querier
+	sqlc.Querier
 }
 
 type SQLStore struct {
-	*Queries
+	*sqlc.Queries
+	db *sql.DB
 }
 
 func NewStore(db *sql.DB) Store {
 	return &SQLStore{
-		Queries: New(db),
+		db: db,
+		Queries: sqlc.New(db),
 	}
 }
