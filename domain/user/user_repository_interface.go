@@ -1,9 +1,11 @@
 package user
 
-import "github.com/utya1414/blog-server/infrastructure/db"
+import (
+	"context"
+)
 
 type UserRepository interface {
-	CreateUser(user *db.CreateUserParams) (*User, error) 
-	GetUser(username string) (*User, error)
-	ListUsers(limit int32) ([]*User, error)
+	CreateUser(ctx context.Context, user *User) (*User, error) 
+	// GetUser(ctx context.Context, username string) (*User, error)
+	// ListUsers(ctx context.Context, limit int32) ([]*User, error)
 }
