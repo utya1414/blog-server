@@ -15,24 +15,12 @@ func NewUserRepository(store db.Store) UserRepository {
 	return &userRepository{store: store}
 }
 
-func (r *userRepository) CreateUser(ctx context.Context, u *user.User) error {
-	dbUser, err := r.store.CreateUser(ctx, db.CreateUserParams{
+func (r *userRepository) CreateUser(ctx context.Context, u *user.CreateUser) error {
+	_, err := r.store.CreateUser(ctx, db.CreateUserParams{
 		Username:        u.GetUsername(),
 		Email:           u.GetEmail(),
-		HasshedPassword: u.GetHasshedPassword(),
+		HasshedPassword: u.GetPassword(),
 	})
-	if err != nil {
-		return err
-	}
-
-	// TODO: dbUserがどういうフィールドを持っているか知っている実装なのでカプセル化したい。
-	_, err = user.NewUser(
-		dbUser.Username, 
-		dbUser.Email, 
-		dbUser.HasshedPassword,
-		dbUser.UpdatedAt.String(),
-		dbUser.CreatedAt.String(),
-	)
 	if err != nil {
 		return err
 	}
@@ -60,10 +48,10 @@ func (r *userRepository) GetUser(ctx context.Context, username string) (*user.Us
 	return domainUser, nil
 }
 
-// func (r *userRepository) ListUsers(ctx context.Context, limit int32) ([]*user.User, error) {
-// 	dbUsers, err := db.Store.ListUsers(ctx, db.ListUsersParams{
+// func (r *userRepository) ListUsers(ctx context.Context, limit int32, offset int32) ([]*user.User, error) {
+// 	dbUsers, err := r.store.ListUsers(ctx, db.ListUsersParams{
 // 		Limit: limit,
-// 		Offset: 0,
+// 		Offset: offset,
 // 	})
 // 	if err != nil {
 // 		return nil, err

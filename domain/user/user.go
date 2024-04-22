@@ -1,11 +1,5 @@
 package user
 
-import (
-	"errors"
-	"fmt"
-	"regexp"
-)
-
 type User struct {
 	username string
 	email string
@@ -23,13 +17,14 @@ const (
 	usernameMaxLength = 20
 )
 
+// TODO: 時刻のフォーマットを形式化する
 // ビジネスルールによるバリデーションを実装
 func newUser(username, email, hasshed_password, updated_at, created_at string) (*User, error) {
-	if ok, err := isValidUsername(username); !ok {
+	if ok, err := IsValidUsername(username); !ok {
 		return nil, err
 	}
 
-	if ok, err := isValidEmail(email); !ok {
+	if ok, err := IsValidEmail(email); !ok {
 		return nil, err
 	}
 
@@ -40,27 +35,6 @@ func newUser(username, email, hasshed_password, updated_at, created_at string) (
 		updated_at: updated_at,
 		created_at: created_at,
 	}, nil
-}
-
-// TODO: バリデーションエラーメッセージの詳細化
-func isValidUsername(username string) (bool, error) {
-	if len(username) < usernameMinLength || len(username) > usernameMaxLength {
-		return false, fmt.Errorf("ユーザーネームは%d文字以上%d文字以下である必要があります", usernameMinLength, usernameMaxLength)
-	}
-
-	// 英数字及びアンダースコアのみ許可
-	if !regexp.MustCompile(`^[0-9a-zA-Z_]+$`).MatchString(username) {
-		return false, errors.New("ユーザーネームは英数字及びアンダースコアのみ許可されています")
-	}
-	return true, nil
-}
-
-func isValidEmail(email string) (bool, error) {
-	// RFC 5322に基づくバリデーション
-	if !regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`).MatchString(email) {
-		return false, errors.New("メールアドレスが不正です")
-	}
-	return true, nil
 }
 
 func (u *User) GetUsername() string {
@@ -82,5 +56,3 @@ func (u *User) GetUpdatedAt() string {
 func (u *User) GetCreatedAt() string {
 	return u.created_at
 }
-
-

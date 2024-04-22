@@ -7,7 +7,7 @@ import (
 )
 
 type UserRepository interface {
-	CreateUser(ctx context.Context, user *domainUser.User) error
+	CreateUser(ctx context.Context, user *domainUser.CreateUser) error
 	GetUser(ctx context.Context, username string) (*domainUser.User, error)
-	// ListUsers(ctx context.Context, limit int32) ([]*User, error)
+	// ListUsers(ctx context.Context, limit int32, offset int32) ([]*domainUser.User, error)
 }

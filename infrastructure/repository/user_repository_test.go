@@ -10,18 +10,16 @@ import (
 )
 
 func TestCreateUserRepository(t *testing.T) {
-	okuser, err := userDomain.NewUser(
+	okuser, err := userDomain.NewCreateUser(
 		util.RandomUsername(),
 		util.RandomEmail(),
 		util.RandomPassword(),
-		"2021-01-01 00:00:00",
-		"2021-01-01 00:00:00",
 	)
 	require.NoError(t, err)
 
 	tests := []struct {
 		name    string
-		user    *userDomain.User
+		user    *userDomain.CreateUser
 		wantErr error
 	}{
 		{
@@ -42,19 +40,18 @@ func TestCreateUserRepository(t *testing.T) {
 
 func TestGetUserRepository(t *testing.T) {
 	// Todo: 時刻を取得する関数を作成する
-	okuser, err := userDomain.NewUser(
+	// Todo: 時刻のフォーマットを形式化する
+	okuser, err := userDomain.NewCreateUser(
 		util.RandomUsername(),
 		util.RandomEmail(),
 		util.RandomPassword(),
-		"2021-01-01 00:00:00",
-		"2021-01-01 00:00:00",
 	)
 	require.NoError(t, err)
 
 	tests := []struct {
 		name    string
 		username string
-		want   *userDomain.User
+		want   *userDomain.CreateUser
 		wantErr error
 	}{
 		{
@@ -75,10 +72,36 @@ func TestGetUserRepository(t *testing.T) {
 			require.NoError(t, err)
 			require.Equal(t, tt.want.GetUsername(), user.GetUsername())
 			require.Equal(t, tt.want.GetEmail(), user.GetEmail())
-			require.Equal(t, tt.want.GetHasshedPassword(), user.GetHasshedPassword())
+			require.Equal(t, tt.want.GetPassword(), user.GetHasshedPassword())
 			require.NotNil(t, user.GetUpdatedAt())
 			require.NotNil(t, user.GetCreatedAt())
 		})
 	}
 }
 
+// func TestListUsersRepository(t *testing.T) {
+// 	var okusers []*userDomain.User
+// 	for i := 0; i < 5; i++ {
+// 		okuser, err := userDomain.NewUser(
+// 			util.RandomUsername(),
+// 			util.RandomEmail(),
+// 			util.RandomPassword(),
+// 			"2021-01-01 00:00:00",
+// 			"2021-01-01 00:00:00",
+// 		)
+// 		require.NoError(t, err)
+// 		okusers = append(okusers, okuser)
+// 	}
+
+// 	// TODO: ユースケース層のパラメータを使うようにする。
+// 	arg := *sqlc.ListUsersParams{
+// 		Limit: 5,
+// 		Offset: 0,
+// 	}
+
+// 	tests := []struct {
+// 		name    string
+
+		
+
+// }

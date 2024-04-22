@@ -23,3 +23,4 @@ func NewStore(db *sql.DB) Store {
 }
 
 type CreateUserParams = sqlc.CreateUserParams
+type ListUsersParams = sqlc.ListUsersParams
