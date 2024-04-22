@@ -40,25 +40,25 @@ func (r *userRepository) CreateUser(ctx context.Context, u *user.User) error {
 	return nil
 }
 
-// func (r *userRepository) GetUser(ctx context.Context, username string) (*user.User, error) {
-// 	dbUser, err := db.Store.GetUser(ctx, username)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+func (r *userRepository) GetUser(ctx context.Context, username string) (*user.User, error) {
+	dbUser, err := r.store.GetUser(ctx, username)
+	if err != nil {
+		return nil, err
+	}
 	
-// 	domainUser, err := user.NewUser(
-// 		dbUser.Username, 
-// 		dbUser.Email, 
-// 		dbUser.HasshedPassword,
-// 		dbUser.UpdatedAt.String(),
-// 		dbUser.CreatedAt.String(),
-// 	)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	domainUser, err := user.NewUser(
+		dbUser.Username, 
+		dbUser.Email, 
+		dbUser.HasshedPassword,
+		dbUser.UpdatedAt.String(),
+		dbUser.CreatedAt.String(),
+	)
+	if err != nil {
+		return nil, err
+	}
 
-// 	return domainUser, nil
-// }
+	return domainUser, nil
+}
 
 // func (r *userRepository) ListUsers(ctx context.Context, limit int32) ([]*user.User, error) {
 // 	dbUsers, err := db.Store.ListUsers(ctx, db.ListUsersParams{
