@@ -19,5 +19,8 @@ migratedown:
 test:
 	go test -v -cover ./...
 	
+server:
+	go run main.go
+
 PHONY:
-	bash psql start createdb migrateup migratedown test
+	bash psql start createdb migrateup migratedown test server

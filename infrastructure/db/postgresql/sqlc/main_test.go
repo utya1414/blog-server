@@ -1,27 +1,19 @@
 package sqlc
 
 import (
-	"database/sql"
-	"log"
 	"os"
 	"testing"
 
 	_ "github.com/lib/pq"
+	"github.com/utya1414/blog-server/util"
 )
 
-const (
-	dbDriver = "postgres"
-	dbSource = "postgresql://root:password@localhost:5434/blog?sslmode=disable"
-)
+
 
 var testQueries *Queries;
 
 func TestMain(m *testing.M) {
-	conn, err := sql.Open(dbDriver, dbSource);
-	if err != nil {
-		log.Fatal("cannot connect to db:", err)
-	}
-
+	conn := util.SetUpConnection("../../../../");
 	testQueries = New(conn);
 
 	os.Exit(m.Run());

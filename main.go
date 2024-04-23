@@ -7,21 +7,16 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/utya1414/blog-server/api"
 	"github.com/utya1414/blog-server/infrastructure/db"
-)
-
-const (
-	dbDriver = "postgres"
-	dbSource = "postgresql://root:password@localhost:5434/blog?sslmode=disable"
-	serveraddress = "0.0.0.0:8080"
+	"github.com/utya1414/blog-server/util"
 )
 
 func main() {
-	// config, err := util.LoadConfig(".")
-	// if err != nil {
-	// 	log.Fatal("cannot load config:", err)
-	// }
+	config, err := util.LoadConfig(".")
+	if err != nil {
+		log.Fatal("cannot load config:", err)
+	}
 	
-	conn, err := sql.Open(dbDriver, dbSource);
+	conn, err := sql.Open(config.DBDriver, config.DBSource);
 	if err != nil {
 		log.Fatal("cannot connect to db:", err)
 	}
@@ -32,7 +27,7 @@ func main() {
 		log.Fatal("cannot create server:", err)
 	}
 
-	err = router.Run(serveraddress)
+	err = router.Run(config.ServerAddress)
 	if err != nil {
 		log.Fatal("cannot start server:", err)
 	}
