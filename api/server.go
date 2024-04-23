@@ -12,7 +12,7 @@ import (
 type Server struct {
 	
 }
-
+// todo: ルーターの設定
 func NewServer(store db.Store) (*gin.Engine, error) {
 	server := setupRouter(store)
 	return server, nil
@@ -29,6 +29,6 @@ func setupRouter(store db.Store) *gin.Engine {
 			"message": "Hello World",
 		})
 	})
-	
+
 	return router
 }

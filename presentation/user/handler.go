@@ -12,9 +12,9 @@ type handler struct {
 }
 
 type CreateUserParams struct {
-	Username string `json:"username"`
-	Email string	`json:"email"`
-	Password string `json:"password"`
+    Username string `json:"username" binding:"required,alphanumunderscore,min=1,max=20"`
+    Email    string `json:"email" binding:"required,email"`
+    Password string `json:"password" binding:"required,min=6"`
 }
 
 func NewHandler(createUesrUseCase *user.CreateUserUseCase) *handler {

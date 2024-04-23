@@ -12,11 +12,6 @@ func NewUser(username, email, hasshed_password, updated_at, created_at string) (
 	return newUser(username, email, hasshed_password, updated_at, created_at)
 }
 
-const (
-	usernameMinLength = 1
-	usernameMaxLength = 20
-)
-
 // TODO: 時刻のフォーマットを形式化する
 // ビジネスルールによるバリデーションを実装
 func newUser(username, email, hasshed_password, updated_at, created_at string) (*User, error) {

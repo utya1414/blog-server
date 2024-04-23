@@ -6,6 +6,11 @@ import (
 	"regexp"
 )
 
+const (
+	usernameMinLength = 1
+	usernameMaxLength = 20
+)
+
 // TODO: バリデーションエラーメッセージの詳細化
 func IsValidUsername(username string) (bool, error) {
 	if len(username) < usernameMinLength || len(username) > usernameMaxLength {
