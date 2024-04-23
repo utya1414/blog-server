@@ -1,3 +1,6 @@
+help: ## Display this help screen
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+
 start:
 	docker start postgres16
 
@@ -23,4 +26,4 @@ server:
 	go run main.go
 
 PHONY:
-	bash psql start createdb migrateup migratedown test server
+	help bash psql start createdb migrateup migratedown test server
