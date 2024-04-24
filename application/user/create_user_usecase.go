@@ -3,8 +3,8 @@ package user
 import (
 	"context"
 
-	"github.com/pkg/errors"
 	userDomain "github.com/utya1414/blog-server/domain/user"
+	errDomain "github.com/utya1414/blog-server/domain/user/error"
 	"github.com/utya1414/blog-server/infrastructure/repository"
 )
 
@@ -22,9 +22,9 @@ type CreateUserDto struct {
 	Password string
 }
 
-func (uc *CreateUserUseCase) CreateUser(dto *CreateUserDto) error {
-	if _, err := uc.userRep.GetUser(context.Background(), dto.Username); err != nil{
-		return errors.New("ユーザーが既に存在しています")
+func (uc *CreateUserUseCase) CreateUser(dto *CreateUserDto) error {	
+	if _, err := uc.userRep.GetUser(context.Background(), dto.Username); err == nil{
+		return errDomain.ErrUserAlreadyExists
 	}
 	
 	// ドメインモデルを生成

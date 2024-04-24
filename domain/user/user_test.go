@@ -100,6 +100,7 @@ func TestNewUser(t *testing.T) {
 	for _, testCase := range testCases {
 		t.Run(testCase.name, func(t *testing.T) {
 			got, err := NewUser(testCase.args.username, testCase.args.email, testCase.args.hasshed_password, testCase.args.updated_at, testCase.args.created_at)
+			// Todo: エラー処理のDeep Equalをやめる
 			if !reflect.DeepEqual(err, testCase.wantErr) {
 				t.Errorf("got error = %v, wantErr %v", err, testCase.wantErr)
 				return

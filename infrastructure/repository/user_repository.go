@@ -30,7 +30,7 @@ func (r *userRepository) CreateUser(ctx context.Context, u *user.CreateUser) err
 
 func (r *userRepository) GetUser(ctx context.Context, username string) (*user.User, error) {
 	dbUser, err := r.store.GetUser(ctx, username)
-	if err != nil {
+	if err == nil {
 		return nil, err
 	}
 	
