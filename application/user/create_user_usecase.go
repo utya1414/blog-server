@@ -3,16 +3,15 @@ package user
 import (
 	"context"
 
+	errDomain "github.com/utya1414/blog-server/domain/error"
 	userDomain "github.com/utya1414/blog-server/domain/user"
-	errDomain "github.com/utya1414/blog-server/domain/user/error"
-	"github.com/utya1414/blog-server/infrastructure/repository"
 )
 
 type CreateUserUseCase struct {
-	userRep repository.UserRepository
+	userRep userDomain.UserRepository
 }
 
-func NewCreateUserUseCase(userRep repository.UserRepository) *CreateUserUseCase {
+func NewCreateUserUseCase(userRep userDomain.UserRepository) *CreateUserUseCase {
 	return &CreateUserUseCase{userRep: userRep}
 }
 

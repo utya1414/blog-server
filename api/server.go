@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	userApp "github.com/utya1414/blog-server/application/user"
 	"github.com/utya1414/blog-server/infrastructure/db"
-	"github.com/utya1414/blog-server/infrastructure/repository"
+	userRep "github.com/utya1414/blog-server/infrastructure/repository/user"
 	userPre "github.com/utya1414/blog-server/presentation/user"
 )
 
@@ -20,7 +20,7 @@ func NewServer(store db.Store) (*gin.Engine, error) {
 
 func setupRouter(store db.Store) *gin.Engine {
 	router := gin.Default()
-	userRep := repository.NewUserRepository(store)
+	userRep := userRep.NewUserRepository(store)
 	userUse := userApp.NewCreateUserUseCase(userRep)
 	userHandler := userPre.NewHandler(userUse)
 	router.POST("/users", userHandler.CreateUser)

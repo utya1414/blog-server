@@ -25,5 +25,10 @@ test:
 server:
 	go run main.go
 
+mockdb:
+	mockgen -source infrastructure/db/store.go -destination infrastructure/db/mock/store.go
+
+mock:
+	scripts/mock_gen.sh
 PHONY:
-	help bash psql start createdb migrateup migratedown test server
+	help bash psql start createdb migrateup migratedown test server mock

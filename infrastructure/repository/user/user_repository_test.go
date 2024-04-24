@@ -47,6 +47,7 @@ func TestGetUserRepository(t *testing.T) {
 		util.RandomPassword(),
 	)
 	require.NoError(t, err)
+	require.NotNil(t, okuser)
 
 	tests := []struct {
 		name    string
@@ -70,6 +71,8 @@ func TestGetUserRepository(t *testing.T) {
 
 			user, err := r.GetUser(ctx, tt.username)
 			require.NoError(t, err)
+			require.NotNil(t, user)
+			
 			require.Equal(t, tt.want.GetUsername(), user.GetUsername())
 			require.Equal(t, tt.want.GetEmail(), user.GetEmail())
 			require.Equal(t, tt.want.GetPassword(), user.GetHasshedPassword())
