@@ -15,8 +15,6 @@ func TestNewUser(t *testing.T) {
 		username string
 		email string
 		hasshed_password string
-		updated_at string
-		created_at string
 	}
 
 	//　ハッシュパスワードについてはテストしない
@@ -35,15 +33,11 @@ func TestNewUser(t *testing.T) {
 				username: "test_user",
 				email: "test@test.com",
 				hasshed_password: hasshed_password,
-				updated_at: "2021-01-01 00:00:00",
-				created_at: "2021-01-01 00:00:00",
 			},
 			want: &User{
 				username: "test_user",
 				email: "test@test.com",
 				hasshed_password: hasshed_password,
-				updated_at: "2021-01-01 00:00:00",
-				created_at: "2021-01-01 00:00:00",
 			},
 			wantErr: nil,
 		},
@@ -53,8 +47,6 @@ func TestNewUser(t *testing.T) {
 				username: "",
 				email: "test@test.com",
 				hasshed_password: hasshed_password,
-				updated_at: "2021-01-01 00:00:00",
-				created_at: "2021-01-01 00:00:00",
 			},
 			want: nil,
 			wantErr: fmt.Errorf("ユーザーネームは%d文字以上%d文字以下である必要があります", usernameMinLength, usernameMaxLength),
@@ -65,8 +57,6 @@ func TestNewUser(t *testing.T) {
 				username: "test_user_test_user_test_user",
 				email: "test@test.com",
 				hasshed_password: hasshed_password,
-				updated_at: "2021-01-01 00:00:00",
-				created_at: "2021-01-01 00:00:00",
 			},
 			want: nil,
 			wantErr: fmt.Errorf("ユーザーネームは%d文字以上%d文字以下である必要があります", usernameMinLength, usernameMaxLength),
@@ -77,8 +67,6 @@ func TestNewUser(t *testing.T) {
 				username: "test@user",
 				email: "",
 				hasshed_password: hasshed_password,
-				updated_at: "2021-01-01 00:00:00",
-				created_at: "2021-01-01 00:00:00",
 			},
 			want: nil,
 			wantErr: errors.New("ユーザーネームは英数字及びアンダースコアのみ許可されています"),
@@ -89,8 +77,6 @@ func TestNewUser(t *testing.T) {
 				username: "test_user",
 				email: "testtest.com",
 				hasshed_password: hasshed_password,
-				updated_at: "2021-01-01 00:00:00",
-				created_at: "2021-01-01 00:00:00",
 			},
 			want: nil,
 			wantErr: fmt.Errorf("メールアドレスが不正です"),
@@ -99,7 +85,7 @@ func TestNewUser(t *testing.T) {
 
 	for _, testCase := range testCases {
 		t.Run(testCase.name, func(t *testing.T) {
-			got, err := NewUser(testCase.args.username, testCase.args.email, testCase.args.hasshed_password, testCase.args.updated_at, testCase.args.created_at)
+			got, err := NewUser(testCase.args.username, testCase.args.email, testCase.args.hasshed_password)
 			// Todo: エラー処理のDeep Equalをやめる
 			if !reflect.DeepEqual(err, testCase.wantErr) {
 				t.Errorf("got error = %v, wantErr %v", err, testCase.wantErr)

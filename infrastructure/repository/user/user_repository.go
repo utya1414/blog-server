@@ -1,4 +1,4 @@
-package repository
+package userRep
 
 import (
 	"context"
@@ -11,15 +11,15 @@ type userRepository struct{
 	store db.Store
 }
 
-func NewUserRepository(store db.Store) userDomain.UserRepository {
+func NewUserRepository(store db.Store) UserRepository {
 	return &userRepository{store: store}
 }
 
-func (r *userRepository) CreateUser(ctx context.Context, u *userDomain.CreateUser) error {
+func (r *userRepository) CreateUser(ctx context.Context, u *userDomain.User) error {
 	_, err := r.store.CreateUser(ctx, db.CreateUserParams{
 		Username:        u.GetUsername(),
 		Email:           u.GetEmail(),
-		HasshedPassword: u.GetPassword(),
+		HasshedPassword: u.GetHasshedPassword(),
 	})
 	if err != nil {
 		return err
@@ -28,7 +28,7 @@ func (r *userRepository) CreateUser(ctx context.Context, u *userDomain.CreateUse
 	return nil
 }
 
-func (r *userRepository) GetUser(ctx context.Context, username string) (*userDomain.User, error) {
+func (r *userRepository) GetUser(ctx context.Context, username string) (*UserDto, error) {
 	dbUser, err := r.store.GetUser(ctx, username)
 	if err != nil {
 		return nil, err
@@ -38,14 +38,18 @@ func (r *userRepository) GetUser(ctx context.Context, username string) (*userDom
 		dbUser.Username, 
 		dbUser.Email, 
 		dbUser.HasshedPassword,
-		dbUser.UpdatedAt.String(),
-		dbUser.CreatedAt.String(),
 	)
+	
 	if err != nil {
 		return nil, err
 	}
-
-	return domainUser, nil
+	
+	dto := &UserDto{
+		User: domainUser,
+		CreatedAt: dbUser.CreatedAt,
+		UpdatedAt: dbUser.UpdatedAt,
+	}
+	return dto, nil
 }
 
 // func (r *userRepository) ListUsers(ctx context.Context, limit int32, offset int32) ([]*user.User, error) {

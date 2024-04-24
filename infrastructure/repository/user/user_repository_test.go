@@ -1,4 +1,4 @@
-package repository
+package userRep
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 )
 
 func TestCreateUserRepository(t *testing.T) {
-	okuser, err := userDomain.NewCreateUser(
+	okuser, err := userDomain.NewUser(
 		util.RandomUsername(),
 		util.RandomEmail(),
 		util.RandomPassword(),
@@ -19,7 +19,7 @@ func TestCreateUserRepository(t *testing.T) {
 
 	tests := []struct {
 		name    string
-		user    *userDomain.CreateUser
+		user    *userDomain.User
 		wantErr error
 	}{
 		{
@@ -41,7 +41,7 @@ func TestCreateUserRepository(t *testing.T) {
 func TestGetUserRepository(t *testing.T) {
 	// Todo: 時刻を取得する関数を作成する
 	// Todo: 時刻のフォーマットを形式化する
-	okuser, err := userDomain.NewCreateUser(
+	okuser, err := userDomain.NewUser(
 		util.RandomUsername(),
 		util.RandomEmail(),
 		util.RandomPassword(),
@@ -52,7 +52,7 @@ func TestGetUserRepository(t *testing.T) {
 	tests := []struct {
 		name    string
 		username string
-		want   *userDomain.CreateUser
+		want   *userDomain.User
 		wantErr error
 	}{
 		{
@@ -72,12 +72,12 @@ func TestGetUserRepository(t *testing.T) {
 			user, err := r.GetUser(ctx, tt.username)
 			require.NoError(t, err)
 			require.NotNil(t, user)
-			
-			require.Equal(t, tt.want.GetUsername(), user.GetUsername())
-			require.Equal(t, tt.want.GetEmail(), user.GetEmail())
-			require.Equal(t, tt.want.GetPassword(), user.GetHasshedPassword())
-			require.NotNil(t, user.GetUpdatedAt())
-			require.NotNil(t, user.GetCreatedAt())
+
+			require.Equal(t, tt.want.GetUsername(), user.User.GetUsername())
+			require.Equal(t, tt.want.GetEmail(), user.User.GetEmail())
+			require.Equal(t, tt.want.GetHasshedPassword(), user.User.GetHasshedPassword())
+			require.NotNil(t, user.UpdatedAt)
+			require.NotNil(t, user.CreatedAt)
 		})
 	}
 }

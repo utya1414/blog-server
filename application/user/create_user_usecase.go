@@ -5,13 +5,14 @@ import (
 
 	errDomain "github.com/utya1414/blog-server/domain/error"
 	userDomain "github.com/utya1414/blog-server/domain/user"
+	userRep "github.com/utya1414/blog-server/infrastructure/repository/user"
 )
 
 type CreateUserUseCase struct {
-	userRep userDomain.UserRepository
+	userRep userRep.UserRepository
 }
 
-func NewCreateUserUseCase(userRep userDomain.UserRepository) *CreateUserUseCase {
+func NewCreateUserUseCase(userRep userRep.UserRepository) *CreateUserUseCase {
 	return &CreateUserUseCase{userRep: userRep}
 }
 
@@ -27,7 +28,7 @@ func (uc *CreateUserUseCase) CreateUser(dto *CreateUserDto) error {
 	}
 	
 	// ドメインモデルを生成
-	u, err := userDomain.NewCreateUser(dto.Username, dto.Email, dto.Password)
+	u, err := userDomain.NewUser(dto.Username, dto.Email, dto.Password)
 	if err != nil {
 		return err
 	}

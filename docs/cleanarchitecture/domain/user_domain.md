@@ -19,5 +19,9 @@
    - ID
    - Username
    - Email
-   - CreatedAt
-   - UpdatedAt
+
+
+ドメインにCreaetUserドメインを含めたくない。
+ドメインからCreatedAtとUpdtedAtを削除する。
+どうやってユースケースで日時を扱うか
+リポジトリ層に格納する。
